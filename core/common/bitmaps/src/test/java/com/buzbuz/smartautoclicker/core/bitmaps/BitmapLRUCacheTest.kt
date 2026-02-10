@@ -5,6 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.kotlin.mock
@@ -52,7 +53,7 @@ class BitmapLRUCacheTest {
         val result = bitmapLRUCache.getImageConditionBitmapOrDefault(path, width, height, insert)
 
         assertEquals(bitmap, result)
-        assert(insertCalled)
+        assertTrue(insertCalled)
 
         // Verify it's cached
         val cached = bitmapLRUCache.getImageConditionBitmapOrDefault(path, width, height) {
