@@ -1,0 +1,3 @@
+## 2025-05-27 - BitmapLRUCache Performance Optimization
+**Learning:** `LruCache` operations are synchronous. To cache results of suspending functions without blocking threads (especially for I/O bound operations like bitmap loading), we need a custom `suspend` wrapper around `get` and `put`. This avoids `runBlocking` inside `suspend` functions, which can cause UI jank.
+**Action:** When working with `LruCache` in a coroutine context, implement a `suspend fun getOrPut(key: K, defaultValue: suspend () -> V): V` extension or method. This pattern ensures the thread is released during the computation/loading phase. I applied this to `BitmapLRUCache` to fix a `runBlocking` call in `BitmapRepositoryImpl`.
